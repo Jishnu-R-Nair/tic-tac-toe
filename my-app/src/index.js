@@ -1,30 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Square() {
-  return <button className='square'>{/* TODO */}</button>;
+function Square({ value, onClick }) {
+  return (
+    <button className='square' onClick={onClick}>
+      {value}
+    </button>
+  );
 }
 
 function Board() {
+  const [squares, setSquares] = useState(Array(9).fill(null));
+
+  const handleClick = (i) => {
+    let updatedSquares = [].concat(squares);
+    updatedSquares[i] = 'X';
+    setSquares(updatedSquares);
+  };
+
   const status = 'Next player: X';
 
   return (
     <div>
       <div className='status'>{status}</div>
       <div className='board-row'>
-        {[0, 1, 2].map((i) => (
-          <Square />
+        {squares.slice(0, 3).map((value, i) => (
+          <Square key={i} value={value} onClick={() => handleClick(i)} />
         ))}
       </div>
       <div className='board-row'>
-        {[3, 4, 5].map((i) => (
-          <Square />
+        {squares.slice(3, 6).map((value, i) => (
+          <Square key={i} value={value} onClick={() => handleClick(i + 3)} />
         ))}
       </div>
       <div className='board-row'>
-        {[6, 7, 8].map((i) => (
-          <Square />
+        {squares.slice(6, 9).map((value, i) => (
+          <Square key={i} value={value} onClick={() => handleClick(i + 6)} />
         ))}
       </div>
     </div>
